@@ -224,7 +224,7 @@
         "settings": {
           "compose": {
             "elasticsearch": {
-              "image": "elasticsearch",
+              "image": "elasticsearch:7.1.1",
               "ports": [
                 "9200:9200"
               ]
