@@ -3,59 +3,59 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "clusterName": {
-            "type": "string",
             "defaultValue": "es-azure",
+            "type": "String",
             "metadata": {
                 "description": "The name of the cluster."
             }
         },
         "vmssName": {
-            "type": "string",
+            "maxLength": 61,
+            "type": "String",
             "metadata": {
                 "description": "String used as a base for naming resources. Must be 3-61 characters in length and globally unique across Azure. A hash is prepended to this string for some resources, and resource-specific information is appended."
-            },
-            "maxLength": 61
+            }
         },
         "instanceCount": {
-            "type": "int",
+            "defaultValue": 2,
+            "maxValue": 200,
+            "type": "Int",
             "metadata": {
                 "description": "Number of VM instances (200 or less)."
-            },
-            "defaultValue": 2,
-            "maxValue": 200
+            }
         },
         "adminUsername": {
-            "type": "string",
+            "type": "String",
             "metadata": {
                 "description": "Admin username on all VMs."
             }
         },
         "adminPassword": {
-            "type": "securestring",
+            "type": "SecureString",
             "metadata": {
                 "description": "Admin password for all VMs."
             }
         },
         "location": {
-            "type": "string",
             "defaultValue": "[resourceGroup().location]",
+            "type": "String",
             "metadata": {
                 "description": "Location for all resources."
             }
         },
         "_artifactsLocation": {
-            "type": "string",
             "defaultValue": "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master",
+            "type": "String",
             "metadata": {
                 "description": "Change this value to your repo name if deploying from a fork"
             }
         },
         "_artifactsLocationSasToken": {
-            "type": "securestring",
+            "defaultValue": "",
+            "type": "SecureString",
             "metadata": {
                 "description": "Auto-generated token to access _artifactsLocation"
-            },
-            "defaultValue": ""
+            }
         }
     },
     "variables": {
@@ -80,8 +80,8 @@
         "loadBalancerProbeId": "[concat(variables('loadBalancerId'),'/probes/tcpProbe')]",
         "sshProbeId": "[concat(variables('loadBalancerId'),'/probes/sshProbe')]",
         "subnetName": "[concat(variables('namingInfix'), '-subnet')]",
-        "masterSize": "Standard_DS2_v2",
-        "vmSku": "Standard_DS2_v2",
+        "masterSize": "Standard_DS2",
+        "vmSku": "Standard_DS2",
         "imageReference": {
             "publisher": "Canonical",
             "offer": "UbuntuServer",
@@ -94,8 +94,8 @@
     "resources": [
         {
             "type": "Microsoft.Network/networkSecurityGroups",
-            "name": "[variables('nsgName')]",
             "apiVersion": "2018-07-01",
+            "name": "[variables('nsgName')]",
             "location": "[parameters('location')]",
             "properties": {
                 "securityRules": [
@@ -132,9 +132,9 @@
         },
         {
             "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2018-07-01",
             "name": "[variables('virtualNetworkName')]",
             "location": "[parameters('location')]",
-            "apiVersion": "2018-07-01",
             "properties": {
                 "addressSpace": {
                     "addressPrefixes": [
@@ -153,9 +153,9 @@
         },
         {
             "type": "Microsoft.Network/publicIPAddresses",
+            "apiVersion": "2018-07-01",
             "name": "[variables('publicIpAddressName')]",
             "location": "[parameters('location')]",
-            "apiVersion": "2018-07-01",
             "properties": {
                 "publicIPAllocationMethod": "Dynamic",
                 "dnsSettings": {
@@ -165,9 +165,9 @@
         },
         {
             "type": "Microsoft.Network/loadBalancers",
+            "apiVersion": "2018-07-01",
             "name": "[variables('loadBalancerName')]",
             "location": "[parameters('location')]",
-            "apiVersion": "2018-07-01",
             "dependsOn": [
                 "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIpAddressName'))]"
             ],
@@ -251,30 +251,26 @@
         },
         {
             "type": "Microsoft.Compute/availabilitySets",
+            "apiVersion": "2018-06-01",
             "name": "[variables('availabilitySetName')]",
             "location": "[parameters('location')]",
-            "apiVersion": "2018-06-01",
-            "properties": {
-                "platformUpdateDomainCount": 3,
-                "platformFaultDomainCount": 3
-            },
             "sku": {
-              "name": "Aligned"
+                "name": "Aligned"
+            },
+            "properties": {
+                "platformUpdateDomainCount": 2,
+                "platformFaultDomainCount": 2
             }
         },
         {
             "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2018-07-01",
             "name": "[concat(variables('nicName'), copyindex())]",
             "location": "[parameters('location')]",
-            "apiVersion": "2018-07-01",
             "dependsOn": [
                 "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIpAddressName'))]",
                 "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName'))]"
             ],
-            "copy": {
-                "name": "masterNodesNicLoop",
-                "count": 3
-            },
             "properties": {
                 "ipConfigurations": [
                     {
@@ -296,17 +292,17 @@
                 "networkSecurityGroup": {
                     "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName'))]"
                 }
+            },
+            "copy": {
+                "name": "masterNodesNicLoop",
+                "count": 3
             }
         },
         {
             "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2018-06-01",
             "name": "[concat(variables('masterName'), copyindex())]",
             "location": "[parameters('location')]",
-            "apiVersion": "2018-06-01",
-            "copy": {
-                "name": "masterVmLoop",
-                "count": 3
-            },
             "dependsOn": [
                 "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), copyindex())]",
                 "[concat('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]"
@@ -344,8 +340,8 @@
             "resources": [
                 {
                     "type": "Microsoft.Compute/virtualMachines/extensions",
-                    "name": "[concat(variables('masterName'), copyindex(), '/installelasticsearch')]",
                     "apiVersion": "2017-03-30",
+                    "name": "[concat(variables('masterName'), copyindex(), '/installelasticsearch')]",
                     "location": "[parameters('location')]",
                     "dependsOn": [
                         "[concat('Microsoft.Compute/virtualMachines/', variables('masterName'), copyindex())]"
@@ -364,13 +360,17 @@
                         }
                     }
                 }
-            ]
+            ],
+            "copy": {
+                "name": "masterVmLoop",
+                "count": 3
+            }
         },
         {
             "type": "Microsoft.Compute/virtualMachineScaleSets",
+            "apiVersion": "2018-06-01",
             "name": "[variables('namingInfix')]",
             "location": "[parameters('location')]",
-            "apiVersion": "2018-06-01",
             "dependsOn": [
                 "masterVmLoop",
                 "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
@@ -454,11 +454,11 @@
     ],
     "outputs": {
         "kibana-url": {
-            "type": "string",
+            "type": "String",
             "value": "[concat('http://', reference(resourceId('Microsoft.Network/publicIPAddresses', variables('publicIpAddressName'))).dnsSettings.fqdn, ':5601/app/monitoring#/elasticsearch')]"
         },
         "ssh-connection": {
-            "type": "string",
+            "type": "String",
             "value": "[concat('ssh ', parameters('adminUsername'), '@', reference(resourceId('Microsoft.Network/publicIPAddresses', variables('publicIpAddressName'))).dnsSettings.fqdn)]"
         }
     }
