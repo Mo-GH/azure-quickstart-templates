@@ -101,7 +101,7 @@ install_java()
     MAX_RETRY=5
     while [ $RETRY -lt $MAX_RETRY ]; do
         log "Retry $RETRY: downloading jdk-8u201-linux-x64.tar.gz"
-   wget --continue --no-check-certificate --header Cookie: oraclelicense=a https://download.oracle.com/otn-pub/java/jdk/8u201-b09/42970487e3af4f5aa5bca3f542482c60/jdk-8u201-linux-x64.tar.gz
+  wget --user mohamad_ghanem@hotmail.com --password Ghanem000! https://download.oracle.com/otn/java/jdk/8u212-b10/59066701cf1a433da9770636fbc4c9aa/jdk-8u212-linux-x64.tar.gz?AuthParam=1562624484_7447241643ab4cf08f9ecee9d99b8fc6
         if [ $? -ne 0 ]; then
             let RETRY=RETRY+1
         else
