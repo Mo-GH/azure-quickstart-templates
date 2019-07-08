@@ -90,7 +90,7 @@ done
 # Install Oracle Java
 install_java()
 {
-    if [ -f "jdk-8u201-linux-x64.tar.gz" ];
+    if [ -f "jdk-8u212-linux-x64.tar.gz" ];
     then
         log "Java already downloaded"
         return
@@ -100,7 +100,7 @@ install_java()
     RETRY=0
     MAX_RETRY=5
     while [ $RETRY -lt $MAX_RETRY ]; do
-        log "Retry $RETRY: downloading jdk-8u201-linux-x64.tar.gz"
+        log "Retry $RETRY: downloading jdk-8u212-linux-x64.tar.gz"
   wget --user mohamad_ghanem@hotmail.com --password Ghanem000! https://download.oracle.com/otn/java/jdk/8u212-b10/59066701cf1a433da9770636fbc4c9aa/jdk-8u212-linux-x64.tar.gz?AuthParam=1562624484_7447241643ab4cf08f9ecee9d99b8fc6
         if [ $? -ne 0 ]; then
             let RETRY=RETRY+1
@@ -109,12 +109,12 @@ install_java()
         fi
     done
     if [ $RETRY -eq $MAX_RETRY ]; then
-        log "Failed to download jdk-8u201-linux-x64.tar.gz"
+        log "Failed to download jdk-8u212-linux-x64.tar.gz"
         exit 1
     fi
     
-    tar xzf jdk-8u201-linux-x64.tar.gz -C /var/lib
-    export JAVA_HOME=/var/lib/jdk1.8.0_201
+    tar xzf jdk-8u212-linux-x64.tar.gz -C /var/lib
+    export JAVA_HOME=/var/lib/jdk1.8.0_212
     export PATH=$PATH:$JAVA_HOME/bin
     log "JAVA_HOME: $JAVA_HOME"
     log "PATH: $PATH"
