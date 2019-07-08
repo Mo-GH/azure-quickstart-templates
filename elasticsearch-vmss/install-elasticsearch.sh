@@ -199,7 +199,7 @@ configure_system()
         DATA_DIR="/datadisks/disk1"
         if ! [ -f "vm-disk-utils-0.1.sh" ]; 
         then
-            DOWNLOAD_SCRIPT="https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/shared_scripts/ubuntu/vm-disk-utils-0.1.sh"
+            DOWNLOAD_SCRIPT="https://raw.githubusercontent.com/Mo-GH/azure-quickstart-templates/master/shared_scripts/ubuntu/vm-disk-utils-0.1.sh"
             log "Disk setup script not found in `pwd`, download from $DOWNLOAD_SCRIPT"
             wget -q $DOWNLOAD_SCRIPT
         fi
