@@ -44,7 +44,7 @@
             }
         },
         "_artifactsLocation": {
-            "defaultValue": "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master",
+            "defaultValue": "https://github.com/Mo-GH/azure-quickstart-templates/edit/master",
             "type": "String",
             "metadata": {
                 "description": "Change this value to your repo name if deploying from a fork"
