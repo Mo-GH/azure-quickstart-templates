@@ -295,7 +295,7 @@
             },
             "copy": {
                 "name": "masterNodesNicLoop",
-                "count": 2
+                "count": 3
             }
         },
         {
@@ -363,7 +363,7 @@
             ],
             "copy": {
                 "name": "masterVmLoop",
-                "count": 2
+                "count": 3
             }
         },
         {
