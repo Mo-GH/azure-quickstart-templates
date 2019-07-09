@@ -321,7 +321,7 @@
   "variables": {
     "nestedTemplatesFolderName": "nestedtemplates",
     "scriptsLocation": "[concat(parameters('_artifactsLocation'), '/scripts/')]",
-    "sharedScriptsLocation": "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/shared_scripts/ubuntu/",
+    "sharedScriptsLocation": "https://raw.githubusercontent.com/Mo-GH/azure-quickstart-templates/master/shared_scripts/ubuntu/",
     "storageAccountPrefix": "[concat(substring(uniqueString(resourceGroup().id, parameters('esClusterName')), 0, 6), substring(parameters('esClusterName'), 0, 3))]",
     "storageAccountNameAFS": "[concat(variables('storageAccountPrefix'), 'afs')]",
     "storageAccountNameShared": "[concat(variables('storageAccountPrefix'), 'sh')]",
