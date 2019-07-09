@@ -1,4 +1,4 @@
-# Create 2 Virtual Machines under a Load balancer and configures Load Balancing rules for the VMs
+# Create 2 Virtual Machines under a Load balancer and configures Load Balancing rules for the VMs and ELS
 
 <a href="https://portal.azure.cn/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FMo-GH%2Fazure-quickstart-templates%2Fmyupdate%2F201-2-vms-loadbalancer-lbrules%2Fazuredeploy.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
