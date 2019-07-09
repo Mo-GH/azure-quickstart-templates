@@ -36,7 +36,7 @@
     },
     "authenticationType": {
       "type": "string",
-      "defaultValue": "password",
+      "defaultValue": "sshPublicKey",
       "allowedValues": [
         "password",
         "sshPublicKey"
@@ -47,7 +47,7 @@
     },
     "sshPublicKey": {
       "type": "string",
-      "defaultValue": "",
+      "defaultValue": "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAyG01SefX/R93Ipw0/ZiS4En1zy4wnAtYytv93NzhjegGY96s/+A6g72UHkwaXDbBEIAd282xhFyL9jzZV8uCJGVICy2bUdc/PWjJmXJgZdKQy+/iuPu/w7qWFA1x1BWe5Z/50ohAwWPJtMvKrqTk+rCKuzS/P6REc38I0Dp8Z60ujHmJRavzyP16zSbYXgSviMwxwEYeh/l9oygUugdBen30VpnivzGmzEvM0kbqpBJ4+0gHVK41bhLzOQiAadhEpe2CjFaFdOzFs3vCmx0gnN97yY1VhEZ0Sjt1cjCIhSVcMLM6b2szOee9KqbNuTTvDI7K4V7nVglYYubrEzeOPQ==",
       "metadata": {
         "description": "The public ssh key to use for authentication (Linux only)"
       }
@@ -95,7 +95,7 @@
     },
     "vmSizeClientNodes": {
       "type": "string",
-      "defaultValue": "Standard_D2_v2",
+      "defaultValue": "Standard_DS2",
       "allowedValues": [
         "Standard_D2_v2",
         "Standard_D3_v2",
@@ -117,7 +117,7 @@
     },
     "vmSizeMasterNodes": {
       "type": "string",
-      "defaultValue": "Standard_D2_v2",
+      "defaultValue": "Standard_DS2",
       "allowedValues": [
         "Standard_D2_v2",
         "Standard_D3_v2",
@@ -139,7 +139,7 @@
     },
     "vmSizeDataNodes": {
       "type": "string",
-      "defaultValue": "Standard_D2_v2",
+      "defaultValue": "Standard_DS2",
       "allowedValues": [
         "Standard_D2_v2",
         "Standard_D3_v2",
@@ -177,9 +177,10 @@
     },
     "esVersion": {
       "type": "string",
-      "defaultValue": "2.3.1",
+      "defaultValue": "7.1.1",
       "allowedValues": [
         "2.3.1",
+        "7.1.1",
         "2.2.2",
         "2.1.2",
         "1.7.5"
@@ -223,9 +224,10 @@
     },
     "vmSizeMarvelNodes": {
       "type": "string",
-      "defaultValue": "Standard_D2_v2",
+      "defaultValue": "Standard_DS2",
       "allowedValues": [
         "Standard_D2_v2",
+        "Standard_DS2",
         "Standard_D3_v2",
         "Standard_D4_v2",
         "Standard_A2",
@@ -296,7 +298,7 @@
     },
     "_artifactsLocation": {
       "type": "string",
-      "defaultValue": "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/elasticsearch",
+      "defaultValue": "https://raw.githubusercontent.com/Mo-GH/azure-quickstart-templates/master/elasticsearch",
       "metadata": {
         "description": "Change this value to your repo name if deploying from a fork"
       }
