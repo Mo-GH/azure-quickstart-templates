@@ -113,11 +113,13 @@
     "publicIPAddressType": "Dynamic",
     "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), variables ('subnetName'))]",
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('dnsNameforLBIP'))]",
+    "backendPoolName": "BackendPool1",
     "numberOfInstances": 2,
     "lbID": "[resourceId('Microsoft.Network/loadBalancers',parameters('loadBalancerName'))]",
     "frontEndIPConfigID": "[concat(variables('lbID'),'/frontendIPConfigurations/LoadBalancerFrontEnd')]",
     "lbPoolID": "[concat(variables('lbID'),'/backendAddressPools/BackendPool1')]",
-    "lbProbeID": "[concat(variables('lbID'),'/probes/tcpProbe')]"
+    "lbProbeID": "[concat(variables('lbID'),'/probes/tcpProbe')]",
+    "sshProbeId": "[concat(variables('lbID'),'/probes/sshProbe')]"
     
     
     
@@ -227,6 +229,7 @@
       "dependsOn": [
         "[concat('Microsoft.Network/virtualNetworks/', parameters('vnetName'))]",
         "[concat('Microsoft.Network/loadBalancers/', parameters('loadBalancerName'))]"
+        
       ],
       "properties": {
         "ipConfigurations": [
@@ -239,17 +242,15 @@
               },
               "loadBalancerBackendAddressPools": [
                 {
-                  "id": "[concat(variables('lbID'), '/backendAddressPools/BackendPool1')]"
-                }
-              ],
-              "loadBalancerInboundNatRules": [
-                {
-                  "id": "[concat(variables('lbID'),'/inboundNatRules/RDP-VM', copyindex())]"
+                    "id": "[concat(resourceId('Microsoft.Network/loadBalancers', variables('loadBalancerName')), '/backendAddressPools/', variables('backendPoolName'))]"
                 }
               ]
             }
           }
-        ]
+        ],
+          "networkSecurityGroup": {
+                    "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('nsgName'))]"
+                }
       }
     },
     {
@@ -284,7 +285,7 @@
                                 "id": "[variables('frontendIpConfigId')]"
                             },
                             "backendAddressPool": {
-                                "id": "[variables('loadBalancerPoolId')]"
+                                "id": "[variables('lbPoolID')]"
                             },
                             "protocol": "Tcp",
                             "frontendPort": 5601,
@@ -292,7 +293,7 @@
                             "enableFloatingIP": false,
                             "idleTimeoutInMinutes": 5,
                             "probe": {
-                                "id": "[variables('loadBalancerProbeId')]"
+                                "id": "[variables('lbProbeID')]"
                             }
                         }
                     },
@@ -303,7 +304,7 @@
                                 "id": "[variables('frontendIpConfigId')]"
                             },
                             "backendAddressPool": {
-                                "id": "[variables('loadBalancerPoolId')]"
+                                "id": "[variables('lbPoolID')]"
                             },
                             "protocol": "Tcp",
                             "frontendPort": 22,
