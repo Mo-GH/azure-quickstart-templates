@@ -88,7 +88,20 @@ while getopts :n:mh optname; do
 done
 
 # Install Oracle Java
-install_java()
+
+install_java_old()
+{
+if type -p java; then
+    echo found java executable in PATH
+    _java=java
+elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]];  then
+    echo found java executable in JAVA_HOME     
+    _java="$JAVA_HOME/bin/java"
+else
+    echo "no java"
+fi
+}
+install_java_old()
 {
     if [ -f "jdk-8u212-linux-x64.tar.gz" ];
     then
