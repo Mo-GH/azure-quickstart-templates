@@ -44,7 +44,7 @@
             }
         },
         "_artifactsLocation": {
-            "defaultValue": "https://raw.githubusercontent.com/Mo-GH/azure-quickstart-templates/master",
+            "defaultValue": "https://raw.githubusercontent.com/Mo-GH/azure-quickstart-templates/myupdate",
             "type": "String",
             "metadata": {
                 "description": "Change this value to your repo name if deploying from a fork"
@@ -337,30 +337,7 @@
                     ]
                 }
             },
-            "resources": [
-                {
-                    "type": "Microsoft.Compute/virtualMachines/extensions",
-                    "apiVersion": "2017-03-30",
-                    "name": "[concat(variables('masterName'), copyindex(), '/installelasticsearch')]",
-                    "location": "[parameters('location')]",
-                    "dependsOn": [
-                        "[concat('Microsoft.Compute/virtualMachines/', variables('masterName'), copyindex())]"
-                    ],
-                    "properties": {
-                        "publisher": "Microsoft.Azure.Extensions",
-                        "type": "CustomScript",
-                        "typeHandlerVersion": "2.0",
-                        "autoUpgradeMinorVersion": true,
-                        "settings": {
-                            "fileUris": [
-                                "[variables('elasticSetupScriptUrl')]",
-                                "[variables('diskSetupScriptUrl')]"
-                            ],
-                            "commandToExecute": "[concat('bash install-elasticsearch.sh -m -n ', parameters('clusterName'))]"
-                        }
-                    }
-                }
-            ],
+           
             "copy": {
                 "name": "masterVmLoop",
                 "count": 3
@@ -425,25 +402,6 @@
                                             }
                                         }
                                     ]
-                                }
-                            }
-                        ]
-                    },
-                    "extensionProfile": {
-                        "extensions": [
-                            {
-                                "name": "elasticsearch",
-                                "properties": {
-                                    "publisher": "Microsoft.Azure.Extensions",
-                                    "type": "CustomScript",
-                                    "typeHandlerVersion": "2.0",
-                                    "autoUpgradeMinorVersion": true,
-                                    "settings": {
-                                        "fileUris": [
-                                            "[variables('elasticSetupScriptUrl')]"
-                                        ],
-                                        "commandToExecute": "[concat('bash install-elasticsearch.sh -n ', parameters('clusterName'))]"
-                                    }
                                 }
                             }
                         ]
