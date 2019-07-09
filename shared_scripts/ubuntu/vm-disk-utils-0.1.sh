@@ -221,7 +221,7 @@ scan_partition_format()
 
 	if [ "${#DISKS}" -eq 0 ];
 	then
-	    log "No unpartitioned disks without filesystems detected"
+	    log "No unpartitioned disks without filesystems detected-scan_partition_format"
 	    return
 	fi
 	echo "Disks are ${DISKS[@]}"
@@ -259,7 +259,7 @@ create_striped_volume()
 
 	if [ "${#DISKS[@]}" -eq 0 ];
 	then
-	    log "No unpartitioned disks without filesystems detected"
+	    log "No unpartitioned disks without filesystems detected-create_striped_volume"
 	    return
 	fi
 
