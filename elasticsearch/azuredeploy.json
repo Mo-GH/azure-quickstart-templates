@@ -4,14 +4,13 @@
   "parameters": {
     "adminUsername": {
       "type": "string",
-      "defaultValue": "p3admin",
       "metadata": {
         "description": "Admin username used when provisioning virtual machines"
       }
     },
     "adminPassword": {
       "type": "securestring",
-      "defaultValue": "MIIDATCCAemgAwI0",
+      "defaultValue": "",
       "metadata": {
         "description": "Admin password used when provisioning virtual machines"
       }
@@ -66,7 +65,7 @@
     },
     "jumpbox": {
       "type": "string",
-      "defaultValue": "Yes",
+      "defaultValue": "No",
       "allowedValues": [
         "Yes",
         "No"
