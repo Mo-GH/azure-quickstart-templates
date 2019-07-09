@@ -89,7 +89,7 @@ done
 
 # Install Oracle Java
 
-install_java_old()
+install_java()
 {
 if type -p java; then
     echo found java executable in PATH
