@@ -4,13 +4,14 @@
   "parameters": {
     "adminUsername": {
       "type": "string",
+      "defaultValue": "p3admin",
       "metadata": {
         "description": "Admin username used when provisioning virtual machines"
       }
     },
     "adminPassword": {
       "type": "securestring",
-      "defaultValue": "",
+      "defaultValue": "MIIDATCCAemgAwI0",
       "metadata": {
         "description": "Admin password used when provisioning virtual machines"
       }
