@@ -1,0 +1,4 @@
+{
+  "fileUris": ["https://raw.githubusercontent.com/Mo-GH/azure-quickstart-templates/myupdate/201-2-vms-loadbalancer-lbrules/install-elasticsearch.sh"],
+  "commandToExecute": "./install-elasticsearch.sh"
+}
