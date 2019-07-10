@@ -73,13 +73,13 @@ start_service_Kibana()
   service kibana start
 } 
 
-log "starting elasticsearch setup"
+echo "starting elasticsearch setup"
 
 install_java
 install_es
 start_service_els
 
 
-log "completed elasticsearch setup"
+echo "completed elasticsearch setup"
 
 exit 0
