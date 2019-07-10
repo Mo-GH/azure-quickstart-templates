@@ -22,7 +22,7 @@ else
     
     log "Installing Java 11"
     
-    apt update && sudo apt install openjdk-11-jre-headless
+    apt update && sudo apt install -y openjdk-11-jre-headless
     export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 fi
 }
@@ -31,7 +31,7 @@ install_es()
 {
     wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
     echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | tee -a /etc/apt/sources.list.d/elastic-7.x.list
-    apt update && sudo apt install elasticsearch 
+    apt update && sudo apt install -y elasticsearch 
    
 }
 
@@ -47,12 +47,12 @@ configure_es()
 
 install_logstash()
 {
- apt update && sudo apt install logstash
+ apt update && sudo apt install -y logstash
 }
 
 install_kibana()
 {
- apt update && sudo apt install kibana
+ apt update && sudo apt install -y kibana
 }
 configure_Kibana()
 {
