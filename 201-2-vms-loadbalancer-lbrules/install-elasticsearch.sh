@@ -20,20 +20,19 @@ elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]];  then
 else
     echo "no java"
     
-    log "Installing Java 8"
+    log "Installing Java 11"
     
-     add-apt-repository ppa:openjdk-r/ppa -y
-     apt install openjdk-8-jdk -y
+    apt update && sudo apt install openjdk-11-jre-headless
+    export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 fi
 }
 
 install_es()
 {
-    wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add -
-    apt-get install apt-transport-https
-    echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | tee -a /etc/apt/sources.list.d/elastic-7.x.list  
-    apt-get update -y 
-    apt-get install -y elasticsearch=7.1.1 -V
+    wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+    echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | tee -a /etc/apt/sources.list.d/elastic-7.x.list
+    apt update && sudo apt install elasticsearch 
+   
 }
 
 configure_es()
@@ -48,27 +47,29 @@ configure_es()
 
 install_logstash()
 {
- apt-get install logstash
+ apt update && sudo apt install logstash
 }
 
 install_kibana()
 {
- apt-get install kibana
+ apt update && sudo apt install kibana
 }
 configure_Kibana()
 {
 	log "Update configuration Kibana"
 	mv /etc/kibana/kibana.yml /etc/kibana/kibana.bak
   echo "server.port: 5601" >> /etc/elasticsearch/elasticsearch.yml
-	echo "elasticsearch.url: $ElS_ADDRESS" >> /etc/elasticsearch/elasticsearch.yml
+	echo "elasticsearch.hosts: $ElS_ADDRESS" >> /etc/elasticsearch/elasticsearch.yml
 }
 
 start_service_els()
 {
+  systemctl start elasticsearch.service
   service elasticsearch start
 }
 start_service_Kibana()
 {
+ systemctl start kibana.service
   service kibana start
 } 
 
@@ -76,11 +77,8 @@ log "starting elasticsearch setup"
 
 install_java
 install_es
-configure_es
-install_logstash
-install_kibana
 start_service_els
-start_service_Kibana
+
 
 log "completed elasticsearch setup"
 
