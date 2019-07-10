@@ -22,7 +22,7 @@ else
     
     log "Installing Java 11"
     
-    apt update && sudo apt install -y openjdk-11-jre-headless
+    apt update && sudo apt install --assume-yes openjdk-11-jre-headless
     export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 fi
 }
@@ -47,12 +47,12 @@ configure_es()
 
 install_logstash()
 {
- apt update && sudo apt install -y logstash
+ apt update && sudo apt install --assume-yes logstash
 }
 
 install_kibana()
 {
- apt update && sudo apt install -y kibana
+ apt update && sudo apt install --assume-yes kibana
 }
 configure_Kibana()
 {
