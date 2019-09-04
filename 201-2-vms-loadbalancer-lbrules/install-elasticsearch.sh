@@ -1,13 +1,15 @@
 #!/bin/bash
-
 # The MIT License (MIT)
 #
 # Copyright (c) 2019 Mohamad Ghanem
+
 Script Parameters
-ES_VERSION="7.1.1"
-Name="localhost"
+ES_VERSION="7.3.0"
+Name="master1"
 PORT=9200
-ElS_ADDRESS= "http://localhost:9200"
+ElS_ADDRESS="http://localhost:9200"
+Clustername="DMO-ELK"
+Nodename="master1"
 
 install_java()
 {
@@ -39,11 +41,24 @@ configure_es()
 {
 	log "Update configuration"
 	mv /etc/elasticsearch/elasticsearch.yml /etc/elasticsearch/elasticsearch.bak
-	echo "network.host: $Name" >> /etc/elasticsearch/elasticsearch.yml
-	echo "http.port: $PORT" >> /etc/elasticsearch/elasticsearch.yml
-	echo "cluster.initial_master_nodes: $Name" >> /etc/elasticsearch/elasticsearch.yml
-
+    echo "cluster.name: $Clustername" >> /etc/elasticsearch/elasticsearch.yml
+    echo "node.name: $Nodename" >> /etc/elasticsearch/elasticsearch.yml
+    echo "node.master: true" >> /etc/elasticsearch/elasticsearch.yml
+    echo "node.data: true" >> /etc/elasticsearch/elasticsearch.yml
+    echo "path.data: /var/lib/elasticsearch" >> /etc/elasticsearch/elasticsearch.yml
+    echo "path.logs: /var/log/elasticsearch" >> /etc/elasticsearch/elasticsearch.yml
+	  echo "network.host: 0.0.0.0" >> /etc/elasticsearch/elasticsearch.yml
+	  #echo "http.port: $PORT" >> /etc/elasticsearch/elasticsearch.yml
+	  #echo "cluster.initial_master_nodes: $Name" >> /etc/elasticsearch/elasticsearch.yml
+    echo "cluster.initial_master_nodes: [\"10.82.66.46\", \"10.82.66.47\", \"10.82.66.48\"]" >> /etc/elasticsearch/elasticsearch.yml
+    echo "discovery.seed_hosts: [\"10.82.66.46\", \"10.82.66.47\", \"10.82.66.48\"]" >> /etc/elasticsearch/elasticsearch.yml
 }
+
+install_es_Plugin_analysis_smartcn()
+{
+   /usr/share/elasticsearch/bin/elasticsearch-plugin install analysis-smartcn
+}
+
 
 install_logstash()
 {
@@ -77,9 +92,9 @@ echo "starting elasticsearch setup"
 
 install_java
 install_es
-start_service_els
-
+configure_es
+install_es_Plugin_analysis_smartcn
+#start_service_els
 
 echo "completed elasticsearch setup"
-
 exit 0
